@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Liste des Composantes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Liste des Composantes</h1>
+    <div class="mb-3">
+        <a th:href="@{/composante/create}" class="btn btn-primary">Créer une nouvelle Composante</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Acronyme</th>
+            <th>Nom</th>
+            <th>Responsable</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c : ${composantes}">
+            <td th:text="${c.acronyme}">Acronyme</td>
+            <td th:text="${c.nom}">Nom</td>
+            <td th:text="${c.responsable}">Responsable</td>
+            <td>
+                <a th:href="@{'/composante/' + ${c.acronyme} + '/voir'}" class="btn btn-sm btn-info">Voir</a>
+                <a th:href="@{'/composante/edit/' + ${c.acronyme}}" class="btn btn-sm btn-warning">Modifier</a>
+                <a th:href="@{'/composante/delete/' + ${c.acronyme}}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Voulez-vous supprimer cette composante ?')">Supprimer</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(composantes)}">
+            <td colspan="4" class="text-center">Aucune composante disponible.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS (optionnel) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

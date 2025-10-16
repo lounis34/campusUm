@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${#strings.isEmpty(batiment.codeB)} ? 'Créer un Batiment' : 'Modifier un Batiment'">Formulaire Batiment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${#strings.isEmpty(batiment.codeB)} ? 'Créer un Batiment' : 'Modifier un Batiment'" class="mb-4"></h1>
+
+    <form th:object="${batiment}"
+          th:action="@{${#strings.isEmpty(batiment.codeB)}
+             ? '/batiment/create'
+             : '/batiment/edit/' + ${batiment.codeB}}"
+          method="post" class="needs-validation" novalidate>
+
+        <div class="mb-3">
+            <label for="codeB" class="form-label">Code B<span class="text-danger">*</span>:</label>
+            <input type="text" id="codeB" th:field="*{codeB}"
+                   th:attr="readonly=${!#strings.isEmpty(batiment.codeB)}"
+                   class="form-control" required/>
+            <div class="invalid-feedback">
+                Veuillez entrer le Code B.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="anneeC" class="form-label">Année de Construction<span class="text-danger">*</span>:</label>
+            <input type="number" id="anneeC" th:field="*{anneeC}" class="form-control" required/>
+            <div class="invalid-feedback">
+                Veuillez entrer l'année de construction.
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="campus" class="form-label">Campus :</label>
+            <select id="campus" class="form-select" th:field="*{campus.nomC}" required>
+                <option value="">-- Sélectionner un campus --</option>
+                <option th:each="camp : ${campuses}"
+                        th:value="${camp.nomC}"
+                        th:text="${camp.nomC}">
+                </option>
+            </select>
+        </div>
+
+        <!-- <div class="mb-3">
+             <label for="composantes" class="form-label">Composantes:</label>
+             <select multiple id="composantes" th:field="*{composantes}" class="form-select">
+                 <option th:each="comp : ${composantes}"
+                         th:value="${comp.acronyme}"
+                         th:text="${comp.nom}">
+                 </option>
+             </select>
+             <small class="form-text text-muted">Maintenez la touche Ctrl (Windows) ou Command (Mac) pour sélectionner plusieurs options.</small>
+         </div>-->
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success"
+                    th:text="${#strings.isEmpty(batiment.codeB)} ? 'Créer' : 'Modifier'">Créer</button>
+            <a th:href="@{/batiment}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<!-- Bootstrap JS et Popper.js (pour les fonctionnalités interactives et la validation) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script de validation du formulaire Bootstrap -->
+<script>
+    // Exemple de JavaScript pour désactiver la soumission du formulaire si des champs ne sont pas valides
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>

@@ -3,6 +3,7 @@ package fr.umontpellier.campusum.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,13 +19,13 @@ public class Campus {
         private String ville;
 
 
-
+/*
     @OneToMany(mappedBy = "campus")
-    private List<Batiment> batiments;
+    private List<Batiment> batiments;*/
+    @OneToMany(mappedBy = "campus", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Batiment> batiments = new ArrayList<>();
 
-    // Getters and Setters
-
-
+    // Getters et Setters
     public String getNomC() {
         return nomC;
     }
@@ -41,36 +42,14 @@ public class Campus {
         this.ville = ville;
     }
 
-   /* public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-*/
     public List<Batiment> getBatiments() {
         return batiments;
     }
 
     public void setBatiments(List<Batiment> batiments) {
-        this.batiments = batiments;}
-
-
+        this.batiments = batiments;
+        for (Batiment batiment : batiments) {
+            batiment.setCampus(this);
+        }
+    }
 }

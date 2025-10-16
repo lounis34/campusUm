@@ -1,8 +1,8 @@
 package fr.umontpellier.campusum.repository;
 
 import fr.umontpellier.campusum.entity.Campus;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CampusRepository extends CrudRepository <Campus, String> {
-
+public interface CampusRepository extends JpaRepository<Campus, String> {
+    Campus findCampusByNomC(String name);
 }

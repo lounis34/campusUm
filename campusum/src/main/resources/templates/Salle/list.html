@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Liste des Salles</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="mb-4">Liste des Salles</h1>
+  <div class="mb-3">
+    <a th:href="@{'/batiment/' + ${batiment.codeB} + '/salles/create'}"
+       class="btn btn-primary">
+      Créer une nouvelle Salle
+    </a>
+  </div>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>Numéro</th>
+      <th>Capacité</th>
+      <th>Type</th>
+      <th>Accès</th>
+      <th>Étage</th>
+      <th>Batiment</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${salles}">
+      <td th:text="${s.numS}">numS</td>
+      <td th:text="${s.capacite}">capacite</td>
+      <td th:text="${s.typeS}">typeS</td>
+      <td th:text="${s.acces}">acces</td>
+      <td th:text="${s.etage}">etage</td>
+      <td th:text="${s.batiment.codeB}">Batiment</td>
+      <td>
+        <a th:href="@{'/salle/' + ${s.numS} + '/voir'}" class="btn btn-sm btn-info">Voir</a>
+        <a th:href="@{'/salle/edit/' + ${s.numS}}" class="btn btn-sm btn-warning">Modifier</a>
+        <a th:href="@{'/salle/delete/' + ${s.numS}}"
+           class="btn btn-sm btn-danger"
+           onclick="return confirm('Voulez-vous supprimer cette salle ?')">Supprimer</a>
+        <a th:href="@{'/salle/' + ${s.numS} + '/composantes'}" class="btn btn-sm btn-primary">Composantes</a>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(salles)}">
+      <td colspan="7" class="text-center">Aucune salle disponible.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Bootstrap JS (optionnel) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
